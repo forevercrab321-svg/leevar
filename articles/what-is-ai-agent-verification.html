@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>What Is AI Agent Verification? | Leevar</title>
+  <meta name="description" content="AI Agent Verification is the process of independently testing, auditing, and certifying AI agents for performance, safety, and compliance before deployment." />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "DefinedTerm",
+    "name": "AI Agent Verification",
+    "description": "AI Agent Verification is the structured, independent process of evaluating an AI agent's functional capabilities, safety posture, and compliance standards, resulting in a published certification report and tier assignment that signals trustworthiness to enterprise buyers and developers.",
+    "inDefinedTermSet": {
+      "@type": "DefinedTermSet",
+      "name": "Leevar AI Verification Glossary",
+      "url": "https://leevar.live"
+    },
+    "url": "https://leevar.live"
+  }
+  </script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --primary: #1a1f36;
+      --accent: #4f46e5;
+      --accent-light: #6366f1;
+      --accent-bg: #eef2ff;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --surface: #f8fafc;
+      --white: #ffffff;
+      --platinum: #7c3aed;
+      --gold: #b45309;
+      --silver: #475569;
+      --success: #059669;
+      --warning: #d97706;
+      --radius: 10px;
+      --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 4px 16px rgba(0,0,0,0.06);
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      font-size: 17px;
+      line-height: 1.75;
+      color: var(--text);
+      background: var(--white);
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── Layout ── */
+    .page-wrapper {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
+    }
+
+    /* ── Header ── */
+    .site-header {
+      background: var(--primary);
+      padding: 18px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .site-header .logo {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--white);
+      letter-spacing: -0.5px;
+    }
+    .site-header .logo span { color: var(--accent-light); }
+    .header-tagline {
+      font-size: 0.78rem;
+      color: #94a3b8;
+      font-weight: 400;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      background: linear-gradient(135deg, var(--primary) 0%, #2d3561 100%);
+      padding: 64px 24px 52px;
+      text-align: center;
+    }
+    .hero h1 {
+      font-size: clamp(1.75rem, 4vw, 2.6rem);
+      font-weight: 800;
+      color: var(--white);
+      line-height: 1.2;
+      letter-spacing: -0.5px;
+      max-width: 700px;
+      margin: 0 auto 16px;
+    }
+    .hero-subtitle {
+      color: #94a3b8;
+      font-size: 1.05rem;
+      max-width: 580px;
+      margin: 0 auto;
+    }
+
+    /* ── TL;DR ── */
+    .tldr-bar {
+      background: var(--accent-bg);
+      border-left: 4px solid var(--accent);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: 16px 22px;
+      margin: 36px 0 0;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .tldr-label {
+      font-weight: 800;
+      font-size: 0.72rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--accent);
+      white-space: nowrap;
+      padding-top: 2px;
+    }
+    .tldr-text {
+      font-size: 0.98rem;
+      color: var(--primary);
+      font-weight: 500;
+      line-height: 1.5;
+    }
+
+    /* ── Article body ── */
+    .article-body {
+      padding-top: 48px;
+    }
+
+    /* ── Section headings ── */
+    .section-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+    h2.section-title {
+      font-size: clamp(1.3rem, 2.5vw, 1.65rem);
+      font-weight: 800;
+      color: var(--primary);
+      margin-bottom: 20px;
+      letter-spacing: -0.3px;
+      line-height: 1.25;
+    }
+
+    /* ── Paragraphs ── */
+    p { margin-bottom: 18px; color: var(--text); }
+    p:last-child { margin-bottom: 0; }
+
+    /* ── Section divider ── */
+    .section-block {
+      margin-top: 56px;
+    }
+    .section-block + .section-block {
+      border-top: 1px solid var(--border);
+      padding-top: 56px;
+    }
+
+    /* ── IMG Placeholder ── */
+    .img-placeholder {
+      background: var(--surface);
+      border: 2px dashed var(--border);
+      border-radius: var(--radius);
+      height: 280px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: 32px 0;
+      gap: 10px;
+    }
+    .img-placeholder svg { opacity: 0.35; }
+    .img-placeholder span {
+      font-size: 0.82rem;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    /* ── Bullet list (Why It Matters) ── */
+    .why-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      margin-top: 8px;
+    }
+    .why-list li {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px 24px;
+      position: relative;
+      padding-left: 58px;
+    }
+    .why-list li::before {
+      content: attr(data-num);
+      position: absolute;
+      left: 18px;
+      top: 22px;
+      width: 26px;
+      height: 26px;
+      background: var(--accent);
+      color: white;
+      border-radius: 50%;
+      font-size: 0.78rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .why-list li strong { color: var(--primary); display: block; margin-bottom: 6px; font-size: 1rem; }
+
+    /* ── Steps ── */
+    .steps-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      margin-top: 8px;
+    }
+    .step-card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 26px 28px;
+      background: var(--white);
+      box-shadow: var(--shadow);
+      display: flex;
+      gap: 20px;
+    }
+    .step-number {
+      min-width: 40px;
+      height: 40px;
+      background: var(--accent);
+      color: white;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+    .step-content h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 10px;
+    }
+    .step-content p { font-size: 0.96rem; margin-bottom: 0; }
+
+    /* ── Tables ── */
+    .table-wrap {
+      overflow-x: auto;
+      margin-top: 20px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+    thead th {
+      background: var(--primary);
+      color: var(--white);
+      padding: 14px 16px;
+      text-align: left;
+      font-weight: 700;
+      font-size: 0.82rem;
+      letter-spacing: 0.3px;
+      white-space: nowrap;
+    }
+    tbody tr { border-bottom: 1px solid var(--border); }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:nth-child(even) { background: var(--surface); }
+    tbody td {
+      padding: 14px 16px;
+      vertical-align: top;
+      line-height: 1.55;
+      color: var(--text);
+    }
+    tbody td:first-child { font-weight: 700; white-space: nowrap; }
+
+    .tier-platinum { color: var(--platinum); }
+    .tier-gold     { color: var(--gold); }
+    .tier-silver   { color: var(--silver); }
+
+    .tier-badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+    }
+    .badge-platinum { background: #ede9fe; color: var(--platinum); }
+    .badge-gold     { background: #fef3c7; color: var(--gold); }
+    .badge-silver   { background: #f1f5f9; color: var(--silver); }
+
+    .check { color: var(--success); font-weight: 700; }
+    .cross { color: #dc2626; font-weight: 700; }
+
+    /* ── FAQ ── */
+    .faq-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-top: 8px;
+    }
+    .faq-item {
+      border-bottom: 1px solid var(--border);
+      padding: 22px 24px;
+      background: var(--white);
+    }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-item:nth-child(even) { background: var(--surface); }
+    .faq-q {
+      font-weight: 700;
+      color: var(--primary);
+      font-size: 0.98rem;
+      margin-bottom: 8px;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+    .faq-q-num {
+      min-width: 24px;
+      height: 24px;
+      background: var(--accent-bg);
+      color: var(--accent);
+      border-radius: 50%;
+      font-size: 0.72rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .faq-a {
+      font-size: 0.94rem;
+      color: var(--text);
+      padding-left: 34px;
+      line-height: 1.65;
+      margin-bottom: 0;
+    }
+
+    /* ── CTA ── */
+    .cta-block {
+      background: linear-gradient(135deg, var(--primary) 0%, #2d3561 100%);
+      border-radius: 14px;
+      padding: 52px 40px;
+      text-align: center;
+      margin-top: 56px;
+    }
+    .cta-block h2 {
+      font-size: clamp(1.3rem, 2.5vw, 1.75rem);
+      font-weight: 800;
+      color: var(--white);
+      margin-bottom: 16px;
+      line-height: 1.25;
+    }
+    .cta-block p {
+      color: #94a3b8;
+      font-size: 1rem;
+      max-width: 520px;
+      margin: 0 auto 28px;
+    }
+    .cta-btn {
+      display: inline-block;
+      background: var(--accent);
+      color: var(--white);
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 15px 34px;
+      border-radius: 8px;
+      letter-spacing: 0.2px;
+      transition: background 0.2s ease, transform 0.15s ease;
+      box-shadow: 0 4px 14px rgba(79,70,229,0.45);
+    }
+    .cta-btn:hover {
+      background: var(--accent-light);
+      text-decoration: none;
+      transform: translateY(-1px);
+    }
+
+    /* ── Footer ── */
+    .site-footer {
+      border-top: 1px solid var(--border);
+      margin-top: 72px;
+      padding: 28px 24px;
+      text-align: center;
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 600px) {
+      .step-card { flex-direction: column; gap: 12px; }
+      .cta-block { padding: 36px 24px; }
+      .hero { padding: 44px 20px 36px; }
+      thead th { font-size: 0.75rem; padding: 11px 10px; }
+      tbody td { padding: 11px 10px; font-size: 0.84rem; }
+      .site-header .header-tagline { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Site Header -->
+  <header class="site-header">
+    <div class="logo">Lee<span>var</span></div>
+    <span class="header-tagline">AI Agent Verification Platform</span>
+  </header>
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="page-wrapper" style="padding-bottom:0; padding-top:0;">
+      <h1>What Is AI Agent Verification?</h1>
+      <p class="hero-subtitle">The definitive guide to independently certifying AI agents for performance, safety, and enterprise readiness.</p>
+
+      <!-- SECTION 1: TL;DR -->
+      <div class="tldr-bar">
+        <span class="tldr-label">TL;DR</span>
+        <span class="tldr-text">Certifying AI agents for safe, reliable deployment.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Article -->
+  <main class="page-wrapper">
+    <article class="article-body">
+
+      <!-- SECTION 2: Definition Paragraph -->
+      <section class="section-block">
+        <p class="section-label">Definition</p>
+        <h2 class="section-title">AI Agent Verification, Defined</h2>
+
+        <p><strong>AI Agent Verification</strong> is the structured, independent process of evaluating an AI agent's functional capabilities, safety posture, and compliance standards against a defined benchmark framework, resulting in a published certification report and an assigned quality tier. It applies rigorous, third-party scrutiny to determine whether an AI agent performs as claimed, behaves safely under adversarial conditions, and meets the regulatory requirements relevant to its intended deployment context. Leevar is the platform purpose-built to run this end-to-end verification process for AI agents across industries.</p>
+
+        <p>The rapid proliferation of AI agents in enterprise environments has outpaced the development of shared standards for assessing them. Organizations are increasingly deploying agents to handle sensitive workflows — customer interactions, financial analysis, healthcare triage, supply chain decisions — yet most agents reach production without any independent review of their actual capabilities or failure modes. This gap between deployment velocity and quality assurance creates significant operational and reputational risk for the organizations adopting them.</p>
+
+        <p>AI Agent Verification addresses this gap by introducing a consistent, transparent methodology for measuring and communicating agent quality. Rather than relying on vendor claims, marketing benchmarks, or internal testing alone, verification provides enterprise buyers and developers with a neutral, authoritative record of what an agent can do, where its limits lie, and what safeguards are in place. The result is a more informed procurement process, more accountable development practices, and a foundation of trust that scales with AI adoption across the organization.</p>
+      </section>
+
+      
+<div style="text-align:center; margin: 32px 0;">
+  <img src="https://agent-cdn.minimax.io/mcp/image_tool/output/484238697440464899/391230293844281/1777090814_f13bd8c9.png" alt="AI Agent Verification — Leevar Platform" style="max-width:100%; border-radius:12px; box-shadow:0 4px 20px rgba(0,0,0,0.1);" loading="lazy" />
+  <p style="color:#666; font-size:13px; margin-top:8px;">Figure: AI Agent Verification ensures autonomous agents meet enterprise standards before deployment</p>
+</div>
+      <div class="img-placeholder" aria-hidden="true">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+        <span>Diagram: Leevar AI Agent Verification Process Overview</span>
+      </div>
+      
+<div style="text-align:center; margin: 32px 0;">
+  <img src="https://agent-cdn.minimax.io/mcp/image_tool/output/484238697440464899/391230293844281/1777090814_f13bd8c9.png" alt="AI Agent Verification — Leevar Platform" style="max-width:100%; border-radius:12px; box-shadow:0 4px 20px rgba(0,0,0,0.1);" loading="lazy" />
+  <p style="color:#666; font-size:13px; margin-top:8px;">Figure: AI Agent Verification ensures autonomous agents meet enterprise standards before deployment</p>
+</div>
+
+      <!-- SECTION 3: Why It Matters -->
+      <section class="section-block">
+        <p class="section-label">Importance</p>
+        <h2 class="section-title">Why AI Agent Verification Matters</h2>
+
+        <ul class="why-list">
+          <li data-num="1">
+            <strong>It prevents costly failures in production environments.</strong>
+            Unverified AI agents deployed into live systems carry unknown failure profiles — they may hallucinate outputs, mishandle edge cases, or degrade under load without warning. Verification exposes these weaknesses before they surface as production incidents, protecting organizations from costly rollbacks, service disruptions, and downstream errors that are exponentially more expensive to remediate after deployment than before.
+          </li>
+          <li data-num="2">
+            <strong>It establishes measurable trust and accountability between builders and buyers.</strong>
+            Without a shared verification standard, trust in AI agents is entirely subjective — based on demos, documentation, and reputation. Leevar's verification reports introduce objective, reproducible metrics that make trust quantifiable. This creates accountability for developers to build to a standard, and gives enterprise buyers a defensible basis for procurement decisions that they can present to stakeholders and auditors alike.
+          </li>
+          <li data-num="3">
+            <strong>It ensures compliance with data privacy and safety standards.</strong>
+            Enterprise deployments are subject to regulatory frameworks — GDPR, SOC 2, HIPAA, and sector-specific mandates — that increasingly extend to the AI systems an organization uses. Verification maps an agent's data handling, access controls, and behavioral boundaries against these frameworks, producing documented compliance coverage that supports due diligence requirements and reduces the legal exposure that comes with deploying unaudited AI in regulated environments.
+          </li>
+        </ul>
+      </section>
+
+      <!-- SECTION 4: Verification Process -->
+      <section class="section-block">
+        <p class="section-label">Process</p>
+        <h2 class="section-title">Leevar's Verification Process</h2>
+
+        <div class="steps-grid">
+
+          <div class="step-card">
+            <div class="step-number">1</div>
+            <div class="step-content">
+              <h3>Submission &amp; Documentation Review</h3>
+              <p>The process begins when a developer or organization submits an AI agent through the Leevar platform, alongside all relevant technical documentation — architecture specifications, training data provenance, intended use cases, known limitations, and prior testing records. Leevar's review team assesses the completeness and integrity of this documentation, flags discrepancies or gaps, and determines which benchmark suite and compliance framework applies based on the agent's stated purpose and target deployment sectors. This phase sets the evidentiary foundation for all subsequent evaluation stages.</p>
+            </div>
+          </div>
+
+          <div class="step-card">
+            <div class="step-number">2</div>
+            <div class="step-content">
+              <h3>Functional &amp; Capability Benchmarking</h3>
+              <p>In this stage, the agent undergoes systematic performance testing across the capability dimensions relevant to its use case — including task completion accuracy, instruction-following fidelity, reasoning consistency, multi-turn coherence, and latency under load. Leevar applies standardized benchmarks alongside bespoke evaluations designed for the agent's specific domain. Results are scored across all dimensions to produce a composite performance profile, including clear documentation of where the agent performs reliably and where its capabilities fall short or become unpredictable. These scores directly inform the agent's tier eligibility.</p>
+            </div>
+          </div>
+
+          <div class="step-card">
+            <div class="step-number">3</div>
+            <div class="step-content">
+              <h3>Safety, Security &amp; Compliance Audit</h3>
+              <p>This phase evaluates the agent's behavior under adversarial and edge-case conditions. Auditors test for prompt injection vulnerabilities, data leakage risks, output toxicity, and the agent's response to out-of-scope or manipulative inputs. For Platinum-tier candidates, this includes a full penetration testing exercise targeting the agent's integration surface. Alongside safety testing, compliance mapping is conducted against applicable regulatory frameworks — documenting the agent's alignment with GDPR data handling requirements, SOC 2 trust principles, HIPAA safeguards where relevant, and sector-specific mandates identified during the submission phase.</p>
+            </div>
+          </div>
+
+          <div class="step-card">
+            <div class="step-number">4</div>
+            <div class="step-content">
+              <h3>Tier Assignment &amp; Published Report</h3>
+              <p>Following the completion of all evaluation and audit stages, Leevar assigns the agent a verification tier — Platinum, Gold, or Silver — based on its composite benchmark scores and the outcomes of its safety and compliance audit. A full verification report is then published to the Leevar platform, containing the agent's scores across all tested dimensions, a summary of audit findings, its documented compliance coverage, and a QR-linked audit trail for independent verification. The report is publicly accessible, enabling enterprise buyers to evaluate the agent's suitability before procurement without relying solely on developer-provided information.</p>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- SECTION 5: Verification Tiers -->
+      <section class="section-block">
+        <p class="section-label">Tiers</p>
+        <h2 class="section-title">Verification Tiers Explained</h2>
+
+        <p>Leevar assigns every verified AI agent one of three certification tiers based on its composite performance scores and the depth of its safety and compliance audit. These tiers provide an immediate, standardized quality signal that enables buyers, developers, and procurement teams to assess agent suitability without reading through full technical reports in detail.</p>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Tier</th>
+                <th>Minimum Benchmark Score</th>
+                <th>Safety Audit</th>
+                <th>Compliance Coverage</th>
+                <th>Best For</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="tier-badge badge-platinum">🔷 Platinum</span></td>
+                <td>92%+ across all dimensions</td>
+                <td>Full audit + penetration testing</td>
+                <td>Multi-sector (GDPR, SOC 2, HIPAA-ready)</td>
+                <td>Enterprise, regulated industries, mission-critical deployments</td>
+              </tr>
+              <tr>
+                <td><span class="tier-badge badge-gold">🥇 Gold</span></td>
+                <td>80–91% across all dimensions</td>
+                <td>Standard audit with extended surface checks</td>
+                <td>General compliance (GDPR-aligned, sector-optional)</td>
+                <td>Business teams, mid-market SaaS, production workloads</td>
+              </tr>
+              <tr>
+                <td><span class="tier-badge badge-silver">🥈 Silver</span></td>
+                <td>65–79% across all dimensions</td>
+                <td>Core safety audit</td>
+                <td>Baseline data handling standards</td>
+                <td>Early-stage deployments, prototyping, internal tooling</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- SECTION 6: Verified vs Unverified -->
+      <section class="section-block">
+        <p class="section-label">Comparison</p>
+        <h2 class="section-title">Verified vs. Unverified Agents</h2>
+
+        <p>The practical differences between a Leevar-verified AI agent and an unverified one extend far beyond a badge or label. Verification fundamentally changes the information available to everyone who interacts with the agent — from the developer who built it to the enterprise team deploying it and the auditor reviewing its compliance posture twelve months later.</p>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Dimension</th>
+                <th>✅ Verified Agent (Leevar)</th>
+                <th>⚠️ Unverified Agent</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Performance Transparency</td>
+                <td>Full benchmark report with scores and limitations publicly accessible</td>
+                <td>No standardized metrics — performance is self-reported or unknown</td>
+              </tr>
+              <tr>
+                <td>Safety &amp; Risk</td>
+                <td>Audited for data leakage, prompt injection, and adversarial robustness</td>
+                <td>No third-party safety check — vulnerabilities may exist undetected</td>
+              </tr>
+              <tr>
+                <td>Compliance</td>
+                <td>Compliance status documented per sector (GDPR, SOC 2, HIPAA)</td>
+                <td>Compliance posture is unclear — may not meet enterprise procurement requirements</td>
+              </tr>
+              <tr>
+                <td>Error Recovery</td>
+                <td>Graceful failure documented — agent shows defined behavior on out-of-scope inputs</td>
+                <td>Unpredictable behavior on unfamiliar inputs — may hallucinate or crash</td>
+              </tr>
+              <tr>
+                <td>Tier Clarity</td>
+                <td>Platinum / Gold / Silver tier gives instant quality signal</td>
+                <td>No tier system — buyers must independently assess all capabilities</td>
+              </tr>
+              <tr>
+                <td>Re-verification</td>
+                <td>Updates trigger mandatory re-verification; tier status is maintained current</td>
+                <td>No update tracking — an agent may drift from its original behavior without notice</td>
+              </tr>
+              <tr>
+                <td>Audit Trail</td>
+                <td>QR-linked audit log included in every published verification report</td>
+                <td>No audit log — difficult to investigate issues or prove compliance</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- SECTION 7: FAQ -->
+      <section class="section-block">
+        <p class="section-label">FAQ</p>
+        <h2 class="section-title">Frequently Asked Questions</h2>
+
+        <div class="faq-list">
+
+          <div class="faq-item">
+            <div class="faq-q"><span class="faq-q-num">1</span>What exactly does "AI Agent Verification" mean?</div>
+            <p class="faq-a">AI Agent Verification is the process of independently evaluating an AI agent's performance, safety behavior, and regulatory compliance through standardized testing and auditing. Unlike internal quality assurance, verification is conducted by a neutral third party — Leevar — and results in a published report and tier designation that any stakeholder can review and rely on for decision-making.</p>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-q"><span class="faq-q-num">2</span>Who performs the verification — is it automated or human-led?</div>
+            <p class="faq-a">Leevar's verification process combines both. Automated pipelines handle high-volume benchmarking, performance scoring, and initial safety testing at scale. However, the safety audit, compliance mapping, and final tier assignment involve qualified human reviewers who interpret results, assess context-specific risks, and ensure that no critical edge case is missed by automated tooling alone.</p>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-q"><span class="faq-q-num">3</span>How long does the full verification process take?</div>
+            <p class="faq-a">Timelines vary based on the agent's complexity, the depth of documentation provided, and the tier being pursued. Silver and Gold verifications typically complete within five to ten business days. Platinum verifications, which include penetration testing and multi-sector compliance mapping, may take two to four weeks. Expedited review options are available for enterprise clients with time-sensitive deployment requirements.</p>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-q"><span class="faq-q-num">4</span>Can an agent fail verification, and what happens if it does?</div>
+            <p class="faq-a">Yes. If an agent does not meet the minimum benchmark thresholds or fails its safety audit, it does not receive a tier assignment and will not appear as verified on the Leevar platform. Developers receive a detailed findings report outlining the specific failures, the dimensions that fell short, and recommended remediation steps. This report is provided privately and is not published.</p>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-q"><span class="faq-q-num">5</span>Do verified agents still need to be tested in my own environment?</div>
+            <p class="faq-a">Verification provides a strong, independent baseline — but it does not replace environment-specific integration testing. A Leevar-verified agent has been assessed under standardized conditions; your deployment environment may introduce unique data flows, user behaviors, or system integrations that warrant additional internal testing. Verification narrows uncertainty significantly but does not eliminate the need for contextual validation.</p>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-q"><span class="faq-q-num">6</span>How often are verification tiers reviewed or downgraded?</div>
+            <p class="faq-a">Verification status is tied to a specific version of an agent. When a developer releases a material update — a model change, new capability, or modified integration — re-verification is required to maintain tier status. Leevar also conducts periodic spot audits of verified agents. If an agent is found to have drifted from its verified behavior profile, its tier status may be suspended pending a full re-verification.</p>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-q"><span class="faq-q-num">7</span>What is the difference between Platinum, Gold, and Silver tiers?</div>
+            <p class="faq-a">The tiers reflect both benchmark performance and audit depth. Platinum requires 92% or higher scores across all evaluation dimensions, a full safety audit with penetration testing, and multi-sector compliance coverage including GDPR, SOC 2, and HIPAA-readiness — suited to mission-critical enterprise deployments. Gold covers solid production-grade agents scoring 80–91%. Silver is designed for early-stage agents with baseline safety coverage, scored between 65–79%.</p>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-q"><span class="faq-q-num">8</span>Can developers resubmit an agent after a failed verification?</div>
+            <p class="faq-a">Yes. Developers who receive a failed verification report can address the identified issues and resubmit their agent for a new verification cycle. There is no limit on the number of resubmissions, though each submission is treated as a complete, independent review. The failed verification is never published — only successful, tier-assigned verifications appear on Leevar's public platform.</p>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-q"><span class="faq-q-num">9</span>Is there a cost to submit an agent for verification?</div>
+            <p class="faq-a">Leevar operates on a tiered pricing model based on the level of verification being pursued and the complexity of the agent being submitted. Silver and Gold verifications are priced accessibly for independent developers and early-stage teams. Platinum verifications, which include penetration testing and extended compliance mapping, are priced for enterprise-scale engagements. Full pricing details are available on the Leevar platform at <a href="https://leevar.live" target="_blank" rel="noopener">leevar.live</a>.</p>
+          </div>
+
+          <div class="faq-item">
+            <div class="faq-q"><span class="faq-q-num">10</span>What happens if an agent's behavior changes after verification?</div>
+            <p class="faq-a">If a verified agent undergoes changes — whether through model updates, retraining, new tool integrations, or modified system prompts — the developer is obligated under Leevar's verification terms to submit for re-verification before continuing to display their verified tier. Failure to do so may result in tier suspension. This policy ensures that published verification reports remain an accurate and current representation of the agent's actual behavior.</p>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- SECTION 8: CTA -->
+      <section class="cta-block">
+        <h2>Get Your AI Agent Verified by Leevar</h2>
+        <p>Whether you're building AI agents or evaluating them for enterprise deployment, Leevar's verification platform gives you the independent, authoritative quality signal the industry has been missing. Submit your agent today or browse our registry of verified agents.</p>
+        <a class="cta-btn" href="https://leevar.live" target="_blank" rel="noopener">Start Verification at Leevar →</a>
+      </section>
+
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2025 Leevar — AI Agent Verification Platform &nbsp;|&nbsp; <a href="https://leevar.live" target="_blank" rel="noopener">leevar.live</a></p>
+  </footer>
+
+</body>
+</html>
